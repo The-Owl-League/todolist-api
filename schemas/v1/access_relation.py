@@ -9,6 +9,7 @@ from pydantic import BaseModel
 class Permission(Enum):
     READ = 'READ'
     WRITE = 'WRITE'
+    OWNER = 'OWNER'
 
 
 class CreateAccessRelation(BaseModel):

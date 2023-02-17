@@ -56,7 +56,7 @@ async def create_task(
     await crud.access_relation.create_access_relation(
         session,
         user_id=task.owner_id,
-        permission=str(schemas.access_relation.Permission.READ.value),
+        permission=str(schemas.access_relation.Permission.OWNER.value),
         task_id=task_id,
         project_id=task.project_id
     )
