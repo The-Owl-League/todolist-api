@@ -1,1 +1,1 @@
-from . import user, task, base
+from . import user, task, access_relation, base

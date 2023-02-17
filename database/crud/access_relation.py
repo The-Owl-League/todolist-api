@@ -11,7 +11,7 @@ async def get_access_relation(
         id_: int = None,
 ) -> Optional[AccessRelation]:
 
-    query = select(True)
+    query = select(AccessRelation)
 
     if id_ is not None:
         query = query.where(AccessRelation.id == id_)

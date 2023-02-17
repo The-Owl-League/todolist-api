@@ -16,6 +16,10 @@ class Exceptions:
         __status_code__ = status.HTTP_404_NOT_FOUND
         __detail__ = 'task not found'
 
+    class AccessRelationNotFound(HTTPExceptionWrapper):
+        __status_code__ = status.HTTP_404_NOT_FOUND
+        __detail__ = 'access relation not found'
+
 
 class Schemas:
     class UserNotFound(BaseModel):
@@ -23,3 +27,6 @@ class Schemas:
 
     class TaskNotFound(BaseModel):
         detail: Literal['task not found']
+
+    class AccessRelationNotFound(BaseModel):
+        detail: Literal['access relation not found']
