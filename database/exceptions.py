@@ -6,4 +6,4 @@ class BaseCrudException(BaseDatabaseException):
     pass
 
 
-# place to declare exeptions
+# place to declare exceptions

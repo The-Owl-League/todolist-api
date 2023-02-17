@@ -8,8 +8,12 @@ from utils.schema_errors import HTTPExceptionWrapper
 
 
 class Exceptions:
-    pass
+    class UserNotFound(HTTPExceptionWrapper):
+        __status_code__ = status.HTTP_404_NOT_FOUND
+        __detail__ = 'user not found'
 
 
 class Schemas:
-    pass
+    class UserNotFound(BaseModel):
+        detail: Literal['user not found']
+
