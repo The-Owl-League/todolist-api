@@ -21,7 +21,7 @@ router = APIRouter(tags=['User'])
     '/tasks/',
     response_model=schemas.task.Task,
     responses={
-        404: {"models": Union[
+        404: {"model": Union[
             err_responses.Schemas.UserNotFound,
             err_responses.Schemas.TaskNotFound,
             err_responses.Schemas.ProjectNotFound
