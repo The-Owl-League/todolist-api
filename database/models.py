@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Optional
 from datetime import datetime, timedelta
 
@@ -39,6 +41,8 @@ class Task(Base):
     majority: Mapped[Optional[str]] = mapped_column()
     text: Mapped[Optional[str]] = mapped_column()
 
+    fk_project_id: Mapped[Optional[int]] = mapped_column(ForeignKey("project.id"))
+
 
 class Project(Base):
     __tablename__ = 'project'
@@ -55,8 +59,8 @@ class AccessRelation(Base):
     permission: Mapped[str] = mapped_column()
 
     fk_user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
-    fk_task_id: Mapped[int] = mapped_column(ForeignKey("task.id"), nullable=True)
-    fk_project_id: Mapped[int] = mapped_column(ForeignKey("project.id"), nullable=True)
+    fk_task_id: Mapped[Optional[int]] = mapped_column(ForeignKey("task.id"), nullable=True)
+    fk_project_id: Mapped[Optional[int]] = mapped_column(ForeignKey("project.id"), nullable=True)
 
 
 Base.metadata.create_all(engine)

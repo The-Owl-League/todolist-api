@@ -43,6 +43,26 @@ async def create_access_relation(
     return obj.id
 
 
+async def find_access_relations(
+        session: Session,
+        user_id: int,
+        project_id: int = None,
+        task_id: int = None
+):
+    query = (select(AccessRelation)
+             .where(AccessRelation.fk_user_id == user_id))
+
+    if project_id is not None:
+        query = query.where(AccessRelation.fk_project_id == project_id)
+
+    if task_id is not None:
+        query = query.where(AccessRelation.fk_task_id == task_id)
+
+    result = session.execute(query)
+
+    return result
+
+
 async def get_all_access_relations(session: Session) -> Iterable[AccessRelation]:
     result = session.execute(select(AccessRelation))
     return result

@@ -18,6 +18,7 @@ class CreateTask(BaseModel):
     deadline: datetime
     majority: str
     text: Optional[str] = None
+    project_id: Optional[int] = None
 
 
 class Task(BaseModel):

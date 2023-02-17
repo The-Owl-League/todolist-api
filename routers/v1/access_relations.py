@@ -44,7 +44,7 @@ async def create_access_relation(
 
 @router.get(
     '/access_relations',
-    response_model=schemas.user.UserList
+    response_model=schemas.access_relation.AccessRelationList
 )
 async def access_relation_search(
         session: Session = Depends(database_session),
@@ -53,17 +53,15 @@ async def access_relation_search(
 
     result = []
 
-    for (i,) in await crud.user.get_all_users(session):
+    for (i,) in await crud.access_relation.get_all_access_relations(session):
+        i: crud.access_relation.AccessRelation
         result.append(
-            schemas.user.User(
+            schemas.access_relation.AccessRelation(
                 id=i.id,
-                first_name=i.first_name,
-                second_name=i.second_name,
-                patronymic=i.patronymic,
-                role=i.role,
-                email=i.email,
-                created_at=i.created_at,
-                deleted_at=i.deleted_at
+                permission=i.permission,
+                user_id=i.fk_user_id,
+                task_id=i.fk_task_id,
+                project_id=i.fk_project_id
             )
         )
 
