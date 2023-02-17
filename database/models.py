@@ -35,9 +35,9 @@ class Task(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     title: Mapped[str] = mapped_column()
     status: Mapped[str] = mapped_column()
-    deadline: Mapped[datetime] = mapped_column(nullable=True)
-    majority: Mapped[str] = mapped_column(nullable=True)
-    text: Mapped[str] = mapped_column(nullable=True)
+    deadline: Mapped[Optional[datetime]] = mapped_column()
+    majority: Mapped[Optional[str]] = mapped_column()
+    text: Mapped[Optional[str]] = mapped_column()
 
 
 class Project(Base):

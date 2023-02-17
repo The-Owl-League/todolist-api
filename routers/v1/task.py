@@ -8,7 +8,6 @@ from database import exceptions as database_exceptions
 from schemas import v1 as schemas
 from schemas.v1.extra import err_responses
 
-from utils.security import hash_password
 
 from ..common import database_session
 
@@ -17,40 +16,38 @@ router = APIRouter(tags=['User'])
 
 
 @router.post(
-    '/users',
-    response_model=schemas.user.User,
+    '/tasks/',
+    response_model=schemas.task.Task,
 )
-async def create_user(
+async def create_task(
         session: Session = Depends(database_session),
-        user: schemas.user.CreateUser = ...
+        task: schemas.task.CreateTask = ...
 ):
 
     """ Create user endpoint """
 
-    user_id = await crud.user.create_user(
+    task_id = await crud.task.create_task(
         session,
-        first_name=user.first_name,
-        second_name=user.second_name,
-        patronymic=user.patronymic,
-        password_hash=hash_password(user.password),
-        role=user.role,
-        email=user.email,
-        telegram_id=user.telegram_id
+        title=task.title,
+        status=str(task.status.value),
+        deadline=task.deadline,
+        majority=task.majority,
+        text=task.text
     )
 
-    user = await get_user(
+    task = await get_task(
         session,
-        user_id=user_id
+        task_id=task_id
     )
 
-    return user
+    return task
 
 
 @router.get(
-    '/users/search',
+    '/tasks',
     response_model=schemas.user.UserList
 )
-async def users_search(
+async def tasks_search(
         session: Session = Depends(database_session),
 ):
     """ Search user endpoint """
@@ -75,35 +72,33 @@ async def users_search(
 
 
 @router.get(
-    '/users/{user_id}',
-    response_model=schemas.user.User,
+    '/tasks/{task_id}',
+    response_model=schemas.task.Task,
     responses={
-        404: {"model": err_responses.Schemas.UserNotFound}
+        404: {"model": err_responses.Schemas.TaskNotFound}
     }
 )
-async def get_user(
+async def get_task(
         session: Session = Depends(database_session),
-        user_id: int = ...
+        task_id: int = ...
 ):
     """ Get user by id endpoint """
 
-    db_user = await crud.user.get_user(
+    db_task = await crud.task.get_task(
         session,
-        id_=user_id
+        id_=task_id
     )
 
-    if db_user is None:
-        raise err_responses.Exceptions.UserNotFound()
+    if db_task is None:
+        raise err_responses.Exceptions.TaskNotFound()
 
-    result = schemas.user.User(
-        id=db_user.id,
-        first_name=db_user.first_name,
-        second_name=db_user.second_name,
-        patronymic=db_user.patronymic,
-        role=db_user.role,
-        email=db_user.email,
-        created_at=db_user.created_at,
-        deleted_at=db_user.deleted_at
+    result = schemas.task.Task(
+        id=db_task.id,
+        title=db_task.title,
+        status=db_task.status,
+        deadline=db_task.deadline,
+        majority=db_task.majority,
+        text=db_task.text
     )
 
     return result

@@ -11,7 +11,7 @@ async def get_task(
         session: Session,
         id_: int = None,
 ) -> Optional[Task]:
-    query = select(True)
+    query = select(Task)
 
     if id_ is not None:
         query = query.where(Task.id == id_)
@@ -23,12 +23,15 @@ async def get_task(
 
 async def create_task(
         session: Session,
+        title: str,
         status: str,
         deadline: datetime,
         majority: str,
         text: str
 ) -> int:
+
     obj = Task(
+        title=title,
         status=status,
         deadline=deadline,
         majority=majority,

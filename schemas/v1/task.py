@@ -1,11 +1,18 @@
 from typing import Optional
 
+from enum import Enum
 from datetime import datetime
 
 from pydantic import BaseModel
 
 
+class TaskStatus(Enum):
+    NEW = 'NEW'
+    DONE = 'DONE'
+
+
 class CreateTask(BaseModel):
+    status: TaskStatus = TaskStatus.NEW
     owner_id: int
     title: str
     deadline: datetime
@@ -15,17 +22,11 @@ class CreateTask(BaseModel):
 
 class Task(BaseModel):
     id: int
-
-    first_name: str
-    second_name: str
-    patronymic: str
-
-    role: str
-    email: str
-    telegram_id: Optional[str]
-
-    created_at: datetime
-    deleted_at: Optional[datetime]
+    title: str
+    status: str
+    deadline: Optional[datetime]
+    majority: Optional[str]
+    text: Optional[str]
 
 
 class TaskList(BaseModel):
