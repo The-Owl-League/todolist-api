@@ -24,7 +24,7 @@ router = APIRouter(tags=['User'])
 )
 async def register_user(
         session: Session = Depends(database_session),
-        role: str = Form(...),
+        role: str = Form("client"),
         email: str = Form(...),
         first_name: str = Form(...),
         second_name: str = Form(...),
