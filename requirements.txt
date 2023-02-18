@@ -6,3 +6,4 @@ SQLAlchemy~=2.0.2
 uvicorn~=0.20.0
 pyyaml
 dataclass-factory
+python-multipart
