@@ -1,3 +1,5 @@
+import datetime
+
 from sqlalchemy.orm import Session
 
 from fastapi import APIRouter, Depends, Form
@@ -11,6 +13,8 @@ from schemas.v1.extra import err_responses
 from utils.security import hash_password
 
 from ..common import database_session
+
+from .tasks import create_task
 
 
 router = APIRouter(tags=['User'])
@@ -43,6 +47,18 @@ async def create_user(
         user_id=user_id
     )
 
+    await create_task(
+        session,
+        user_id,
+        schemas.task.CreateTask(
+            status=schemas.task.TaskStatus.NEW,
+            title="Поспать",
+            deadline=datetime.datetime.now(),
+            majority="очень важно",
+            text="Нужно хорошо выспаться после хакатона...",
+            project="Личное"
+        )
+    )
     return user
 
 
