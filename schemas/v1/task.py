@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 
 from enum import Enum
 from datetime import datetime
@@ -13,12 +13,11 @@ class TaskStatus(Enum):
 
 class CreateTask(BaseModel):
     status: TaskStatus = TaskStatus.NEW
-    owner_id: int
     title: str
     deadline: datetime
     majority: str
     text: Optional[str] = None
-    project_id: Optional[int] = None
+    project: Optional[Union[int, str]] = None
 
 
 class Task(BaseModel):
@@ -28,6 +27,8 @@ class Task(BaseModel):
     deadline: Optional[datetime]
     majority: Optional[str]
     text: Optional[str]
+    project: Optional[str]
+    project_id: Optional[int]
 
 
 class TaskList(BaseModel):

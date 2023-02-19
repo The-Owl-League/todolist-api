@@ -49,6 +49,7 @@ class Project(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     title: Mapped[str] = mapped_column()
+    fk_user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
 
 
 class AccessRelation(Base):
